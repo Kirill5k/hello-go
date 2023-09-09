@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 func main() {
@@ -13,4 +14,7 @@ func main() {
 
 	fmt.Println(fmt.Sprintf(helloStr, nameStr))
 	fmt.Printf("The type is %T\n", helloStr)
+
+	now := time.Now()
+	fmt.Println("Today's date is " + now.Format(time.RFC3339))
 }
