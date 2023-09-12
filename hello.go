@@ -17,6 +17,8 @@ func main() {
 
 	dates()
 	pointers()
+	arrays()
+	slices()
 }
 
 func dates() {
@@ -27,5 +29,22 @@ func dates() {
 func pointers() {
 	anInt := 42
 	var pointer = &anInt
-	fmt.Println("Value of pointer:", *pointer)
+	fmt.Println("Value of pointer", *pointer)
+}
+
+func arrays() {
+	var colors [3]string
+	colors[0] = "Red"
+	colors[1] = "Green"
+	colors[2] = "Blue"
+	fmt.Println("Colors array", colors)
+
+	var numbers = [5]int{1, 2, 3, 4, 5}
+	fmt.Println("Numbers array", numbers)
+}
+
+func slices() {
+	var colors = []string{"Red", "Green", "bluee"}
+	colors = append(colors, "Purple")
+	fmt.Println("Colors slice", colors)
 }
