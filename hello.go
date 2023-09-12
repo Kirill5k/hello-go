@@ -44,7 +44,8 @@ func arrays() {
 }
 
 func slices() {
-	var colors = []string{"Red", "Green", "bluee"}
+	var colors = []string{"Red", "Green", "Bluee"}
 	colors = append(colors, "Purple")
+	colors = append(colors[1:])
 	fmt.Println("Colors slice", colors)
 }
