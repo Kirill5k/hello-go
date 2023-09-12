@@ -48,4 +48,12 @@ func slices() {
 	colors = append(colors, "Purple")
 	colors = append(colors[1:])
 	fmt.Println("Colors slice", colors)
+
+	numbers := make([]int, 5, 5) // last argument is optional slice capacity
+	numbers[0] = 1
+	numbers[1] = 2
+	numbers[2] = 3
+	numbers[3] = 4
+	numbers[4] = 5
+	fmt.Println("Numbers slice", colors)
 }
