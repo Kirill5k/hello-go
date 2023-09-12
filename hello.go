@@ -15,24 +15,25 @@ func main() {
 	fmt.Println(helloStr)
 	fmt.Printf("The type is %T\n", helloStr)
 
-	dates()
-	pointers()
-	arrays()
-	slices()
+	goDates()
+	goPointers()
+	goArrays()
+	goSlices()
+	goMaps()
 }
 
-func dates() {
+func goDates() {
 	now := time.Now()
 	fmt.Println("Today's date is " + now.Format(time.RFC3339))
 }
 
-func pointers() {
+func goPointers() {
 	anInt := 42
 	var pointer = &anInt
 	fmt.Println("Value of pointer", *pointer)
 }
 
-func arrays() {
+func goArrays() {
 	var colors [3]string
 	colors[0] = "Red"
 	colors[1] = "Green"
@@ -43,7 +44,7 @@ func arrays() {
 	fmt.Println("Numbers array", numbers)
 }
 
-func slices() {
+func goSlices() {
 	var colors = []string{"Red", "Green", "Bluee"}
 	colors = append(colors, "Purple")
 	colors = append(colors[1:])
@@ -56,4 +57,19 @@ func slices() {
 	numbers[3] = 4
 	numbers[4] = 5
 	fmt.Println("Numbers slice", colors)
+}
+
+func goMaps() {
+	states := make(map[string]string)
+	states["WA"] = "Washington"
+	states["OR"] = "Oregon"
+	states["CA"] = "California"
+
+	delete(states, "OR")
+	states["NY"] = "New York"
+	fmt.Println("States map", states)
+
+	for k, v := range states {
+		fmt.Printf("%v: %v\n", k, v)
+	}
 }
