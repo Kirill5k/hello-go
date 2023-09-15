@@ -21,6 +21,7 @@ func main() {
 	goSlices()
 	goMaps()
 	goStructs()
+	goConditionals()
 }
 
 func goDates() {
@@ -85,4 +86,19 @@ func goStructs() {
 
 	fmt.Println(poodle)
 	fmt.Printf("%+v\n", poodle)
+}
+
+func goConditionals() {
+	var result string
+
+	// Initialises value as part of if statement
+	if x := -42; x < 0 {
+		result = "Less than zero"
+	} else if x == 0 {
+		result = "Equal to zero"
+	} else {
+		result = "Greater than zero"
+	}
+
+	fmt.Println("Result is", result)
 }
