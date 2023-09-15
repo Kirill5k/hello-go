@@ -20,6 +20,7 @@ func main() {
 	goArrays()
 	goSlices()
 	goMaps()
+	goStructs()
 }
 
 func goDates() {
@@ -72,4 +73,16 @@ func goMaps() {
 	for k, v := range states {
 		fmt.Printf("%v: %v\n", k, v)
 	}
+}
+
+type Dog struct {
+	Breed string
+	Age   int
+}
+
+func goStructs() {
+	poodle := Dog{"Poodle", 10}
+
+	fmt.Println(poodle)
+	fmt.Printf("%+v\n", poodle)
 }
