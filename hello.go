@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"time"
 )
 
@@ -21,7 +22,8 @@ func main() {
 	goSlices()
 	goMaps()
 	goStructs()
-	goConditionals()
+	goConditionalLogic()
+	goSwitch()
 }
 
 func goDates() {
@@ -88,7 +90,7 @@ func goStructs() {
 	fmt.Printf("%+v\n", poodle)
 }
 
-func goConditionals() {
+func goConditionalLogic() {
 	var result string
 
 	// Initialises value as part of if statement
@@ -101,4 +103,20 @@ func goConditionals() {
 	}
 
 	fmt.Println("Result is", result)
+}
+
+func goSwitch() {
+	dow := rand.Intn(7) + 1
+
+	var result string
+	switch dow {
+	case 1:
+		result = "Sunday"
+	case 2:
+		result = "Monday"
+	default:
+		result = "Some other day"
+	}
+
+	fmt.Println("The day is", result)
 }
