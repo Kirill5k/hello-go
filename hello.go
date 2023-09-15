@@ -24,6 +24,7 @@ func main() {
 	goStructs()
 	goConditionalLogic()
 	goSwitch()
+	goLoops()
 }
 
 func goDates() {
@@ -49,7 +50,7 @@ func goArrays() {
 }
 
 func goSlices() {
-	var colors = []string{"Red", "Green", "Bluee"}
+	var colors = []string{"Red", "Green", "Blue"}
 	colors = append(colors, "Purple")
 	colors = append(colors[1:])
 	fmt.Println("Colors slice", colors)
@@ -119,4 +120,26 @@ func goSwitch() {
 	}
 
 	fmt.Println("The day is", result)
+}
+
+func goLoops() {
+	colors := []string{"Red", "Green", "Blue"}
+
+	for i := 0; i < len(colors); i++ {
+		fmt.Print("color ", colors[i], " ")
+	}
+
+	fmt.Print("\n")
+
+	for i := range colors {
+		fmt.Print("color ", colors[i], " ")
+	}
+
+	fmt.Print("\n")
+
+	for _, color := range colors {
+		fmt.Print("color ", color, " ")
+	}
+
+	fmt.Print("\n")
 }
