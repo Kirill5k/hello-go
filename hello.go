@@ -1,8 +1,8 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"io"
 	"math/rand"
 	"net/http"
 	"time"
@@ -160,13 +160,21 @@ func goFunctions() {
 	fmt.Println("Using lambda to add values", sum(1, 3))
 }
 
+type HealthStatus struct {
+	Status          string
+	StartupTime     string `json:"startup_time"`
+	UpTime          string `json:"up_time"`
+	ServerIpAddress string `json:"server_ip_address"`
+}
+
 func goHttp() {
 	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
-	fmt.Println("Response: %T\n", resp)
+	fmt.Printf("Response: %T\n", resp)
 	defer resp.Body.Close()
 
-	bytes, _ := io.ReadAll(resp.Body)
-	content := string(bytes)
+	var status HealthStatus
+	decoder := json.NewDecoder(resp.Body)
+	decoder.Decode(&status)
 
-	fmt.Println(content)
+	fmt.Printf("HealthStatus: %T\n", status)
 }
