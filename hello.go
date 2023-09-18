@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"math/rand"
+	"net/http"
 	"time"
 )
 
@@ -26,6 +28,7 @@ func main() {
 	goSwitch()
 	goLoops()
 	goFunctions()
+	goHttp()
 }
 
 func goDates() {
@@ -155,4 +158,15 @@ func goFunctions() {
 	}
 
 	fmt.Println("Using lambda to add values", sum(1, 3))
+}
+
+func goHttp() {
+	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
+	fmt.Println("Response: %T\n", resp)
+	defer resp.Body.Close()
+
+	bytes, _ := io.ReadAll(resp.Body)
+	content := string(bytes)
+
+	fmt.Println(content)
 }
