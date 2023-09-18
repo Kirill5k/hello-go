@@ -85,10 +85,14 @@ type Dog struct {
 	Age   int
 }
 
+func (d Dog) Burk() string {
+	return "Woof"
+}
+
 func goStructs() {
 	poodle := Dog{"Poodle", 10}
 
-	fmt.Println(poodle)
+	fmt.Println(poodle, poodle.Burk())
 	fmt.Printf("%+v\n", poodle)
 }
 
@@ -146,7 +150,7 @@ func goLoops() {
 }
 
 func goFunctions() {
-	sum := func(val1 int, val2 int) int {
+	sum := func(val1, val2 int) int {
 		return val1 + val2
 	}
 
