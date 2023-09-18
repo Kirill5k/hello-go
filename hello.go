@@ -25,6 +25,7 @@ func main() {
 	goConditionalLogic()
 	goSwitch()
 	goLoops()
+	goFunctions()
 }
 
 func goDates() {
@@ -142,4 +143,12 @@ func goLoops() {
 	}
 
 	fmt.Print("\n")
+}
+
+func goFunctions() {
+	sum := func(val1 int, val2 int) int {
+		return val1 + val2
+	}
+
+	fmt.Println("Using lambda to add values", sum(1, 3))
 }
