@@ -74,6 +74,11 @@ func goMaps() {
 	states["OR"] = "Oregon"
 	states["CA"] = "California"
 
+	_, ok := states["AL"]
+	if !ok {
+		fmt.Println("AL not found in states map")
+	}
+
 	delete(states, "OR")
 	states["NY"] = "New York"
 	fmt.Println("States map", states)
