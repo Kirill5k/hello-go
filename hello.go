@@ -162,7 +162,14 @@ func goFunctions() {
 		return val1 + val2
 	}
 
+	divmod := func(val1, val2 int) (int, int) {
+		return val1 / val2, val1 % val2
+	}
+
+	div, mod := divmod(1, 3)
+
 	fmt.Println("Using lambda to add values", sum(1, 3))
+	fmt.Println("Using lambda to divide values", div, mod)
 }
 
 type HealthStatus struct {
