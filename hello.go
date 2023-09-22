@@ -101,7 +101,8 @@ func goStructs() {
 	poodle := Dog{"Poodle", 10}
 
 	fmt.Println(poodle, poodle.Burk())
-	fmt.Printf("%+v\n", poodle)
+	fmt.Printf("%+v\n", poodle) // debug
+	fmt.Printf("%#v\n", poodle) // full info
 }
 
 func goConditionalLogic() {
