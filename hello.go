@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"math/rand"
 	"net/http"
 	"time"
@@ -24,6 +25,7 @@ func main() {
 	goSlices()
 	goMaps()
 	goStructs()
+	goInterfaces()
 	goConditionalLogic()
 	goSwitch()
 	goLoops()
@@ -119,6 +121,40 @@ func goStructs() {
 	fmt.Println(poodle, poodle.Burk())
 	fmt.Printf("%+v\n", poodle) // debug
 	fmt.Printf("%#v\n", poodle) // debug with types
+}
+
+type Shape interface {
+	Area() float64
+}
+
+type Square struct {
+	Length float64
+}
+
+func (s Square) Area() float64 {
+	return s.Length * s.Length
+}
+
+type Circle struct {
+	Radius float64
+}
+
+func (c Circle) Area() float64 {
+	return c.Radius * c.Radius * math.Pi
+}
+
+func goInterfaces() {
+	sumAreas := func(shapes []Shape) float64 {
+		total := 0.0
+		for _, shape := range shapes {
+			total += shape.Area()
+		}
+		return total
+	}
+
+	shapes := []Shape{Circle{10.5}, Square{2.5}}
+
+	fmt.Println("Total area of shapes is", sumAreas(shapes))
 }
 
 func goConditionalLogic() {
