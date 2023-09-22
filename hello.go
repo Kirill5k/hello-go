@@ -97,12 +97,16 @@ func (d Dog) Burk() string {
 	return "Woof"
 }
 
+func (d *Dog) SetAge(age int) {
+	d.Age = age
+}
+
 func goStructs() {
 	poodle := Dog{"Poodle", 10}
-
+	poodle.SetAge(42)
 	fmt.Println(poodle, poodle.Burk())
 	fmt.Printf("%+v\n", poodle) // debug
-	fmt.Printf("%#v\n", poodle) // full info
+	fmt.Printf("%#v\n", poodle) // debug with types
 }
 
 func goConditionalLogic() {
