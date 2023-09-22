@@ -93,6 +93,15 @@ type Dog struct {
 	Age   int
 }
 
+func NewDog(breed string, age int) (*Dog, error) {
+	if age <= 0 {
+		return nil, fmt.Errorf("age must be greater than 0")
+	}
+
+	dog := Dog{breed, age}
+	return &dog, nil
+}
+
 func (d Dog) Burk() string {
 	return "Woof"
 }
@@ -102,7 +111,10 @@ func (d *Dog) SetAge(age int) {
 }
 
 func goStructs() {
-	poodle := Dog{"Poodle", 10}
+	poodle, err := NewDog("Poodle", 10)
+	if err != nil {
+		fmt.Println("ERROR:", err)
+	}
 	poodle.SetAge(42)
 	fmt.Println(poodle, poodle.Burk())
 	fmt.Printf("%+v\n", poodle) // debug
