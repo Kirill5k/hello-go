@@ -26,6 +26,7 @@ func main() {
 	goMaps()
 	goStructs()
 	goInterfaces()
+	goGenerics()
 	goConditionalLogic()
 	goSwitch()
 	goLoops()
@@ -155,6 +156,33 @@ func goInterfaces() {
 	shapes := []Shape{Circle{10.5}, Square{2.5}}
 
 	fmt.Println("Total area of shapes is", sumAreas(shapes))
+}
+
+type Ordered interface {
+	int | float64 | string
+}
+
+func min[T Ordered](items []T) (T, error) {
+	if len(items) == 0 {
+		var zero T
+		return zero, fmt.Errorf("min of empty slice")
+	}
+
+	m := items[0]
+	for _, i := range items[1:] {
+		if i < m {
+			m = i
+		}
+	}
+	return m, nil
+}
+
+func goGenerics() {
+	minFloat, _ := min([]float64{2, 3, 5})
+	fmt.Println("Generic ordered interface with float", minFloat)
+
+	minString, _ := min([]string{"B", "A", "C"})
+	fmt.Println("Generic ordered interface with string", minString)
 }
 
 func goConditionalLogic() {
