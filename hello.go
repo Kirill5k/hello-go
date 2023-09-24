@@ -35,6 +35,7 @@ func main() {
 	goLoops()
 	goFunctions()
 	goHttp()
+	goRecovery()
 }
 
 func goDates() {
@@ -273,4 +274,19 @@ func goHttp() {
 	decoder.Decode(&status)
 
 	fmt.Printf("HealthStatus: %T\n", status)
+}
+
+func goRecovery() {
+	safeValue := func(vals []int, index int) (n int, err error) {
+		defer func() {
+			if e := recover(); e != nil {
+				err = fmt.Errorf("%v", e)
+			}
+		}()
+
+		return vals[index], nil
+	}
+
+	_, err := safeValue([]int{}, 10)
+	fmt.Printf("error from saveValue %v\n", err)
 }
