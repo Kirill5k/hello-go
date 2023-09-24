@@ -277,6 +277,7 @@ func goHttp() {
 }
 
 func goRecovery() {
+	// Named return values - local variables inside function
 	safeValue := func(vals []int, index int) (n int, err error) {
 		defer func() {
 			if e := recover(); e != nil {
