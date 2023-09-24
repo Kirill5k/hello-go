@@ -13,6 +13,9 @@ const (
 	HelloWorldTemplate string = "Hello, %s!"
 )
 
+/*
+https://go-proverbs.github.io for reference
+*/
 func main() {
 	//var declaration, only works inside functions
 	helloStr := fmt.Sprintf(HelloWorldTemplate, "Boris")
