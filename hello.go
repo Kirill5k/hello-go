@@ -6,6 +6,7 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -36,6 +37,7 @@ func main() {
 	goFunctions()
 	goHttp()
 	goRecovery()
+	goRoutines()
 }
 
 func goDates() {
@@ -290,4 +292,34 @@ func goRecovery() {
 
 	_, err := safeValue([]int{}, 10)
 	fmt.Printf("error from saveValue %v\n", err)
+}
+
+func goRoutines() {
+	contentType := func(url string) {
+		resp, err := http.Get(url)
+		if err != nil {
+			fmt.Printf("error: %s\n", err)
+			return
+		}
+
+		defer resp.Body.Close()
+		ctype := resp.Header.Get("content-type")
+		fmt.Printf("%s -> %s\n", url, ctype)
+	}
+
+	urls := []string{
+		"https://golang.com",
+		"https://api.github.com",
+		"https://httpbin.org/ip",
+	}
+
+	var wg sync.WaitGroup
+	for _, url := range urls {
+		wg.Add(1)
+		go func(url string) {
+			contentType(url)
+			wg.Done()
+		}(url)
+	}
+	wg.Wait()
 }
