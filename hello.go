@@ -326,12 +326,26 @@ func goRoutines() {
 }
 
 func goChannels() {
+	const count = 3
 	ch := make(chan int)
 
 	go func() {
-		ch <- 42
+		for i := 0; i < count; i++ {
+			fmt.Printf("sending %d over channel\n", i)
+			ch <- i
+			time.Sleep(time.Second)
+		}
+		close(ch)
 	}()
 
-	val := <-ch
-	fmt.Printf("Meaning of life is %d\n", val)
+	/*
+		for i := 0; i < count; i++ {
+			val := <-ch
+			fmt.Printf("Received %d from channel\n", val)
+		}
+	*/
+
+	for val := range ch {
+		fmt.Printf("Received %d from channel\n", val)
+	}
 }
