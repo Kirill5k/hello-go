@@ -38,6 +38,7 @@ func main() {
 	goHttp()
 	goRecovery()
 	goRoutines()
+	goChannels()
 }
 
 func goDates() {
@@ -322,4 +323,15 @@ func goRoutines() {
 		}(url)
 	}
 	wg.Wait()
+}
+
+func goChannels() {
+	ch := make(chan int)
+
+	go func() {
+		ch <- 42
+	}()
+
+	val := <-ch
+	fmt.Printf("Meaning of life is %d\n", val)
 }
