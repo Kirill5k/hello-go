@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"math"
@@ -376,4 +377,39 @@ func goSelect() {
 	case <-time.After(20 * time.Millisecond):
 		fmt.Println("timeout")
 	}
+}
+
+func goContext() {
+
+	type Bid struct {
+		AdUrl string
+		Price float64
+	}
+
+	defaultBId := Bid{AdUrl: "https://adsrus.com/default", Price: 0.02}
+
+	bestBid := func(url string) Bid {
+		time.Sleep(20 * time.Millisecond)
+		return Bid{AdUrl: "https://adsrus.com/19", Price: 0.05}
+	}
+
+	findBid := func(ctx context.Context, url string) Bid {
+		ch := make(chan Bid, 1) // buffered channel to avoid goroutine leak
+		go func() {
+			ch <- bestBid(url)
+		}()
+
+		select {
+		case bid := <-ch:
+			return bid
+		case <-ctx.Done():
+			return defaultBId
+		}
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	defer cancel()
+
+	bid := findBid(ctx, "https://http.cat/418")
+	fmt.Printf("Found bid %+v\n", bid)
 }
