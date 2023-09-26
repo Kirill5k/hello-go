@@ -41,6 +41,7 @@ func main() {
 	goRoutines()
 	goChannels()
 	goSelect()
+	goContext()
 }
 
 func goDates() {
