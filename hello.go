@@ -36,12 +36,13 @@ func main() {
 	goSwitch()
 	goLoops()
 	goFunctions()
-	goHttpClient()
 	goRecovery()
 	goRoutines()
 	goChannels()
 	goSelect()
 	goContext()
+	goHttpClient()
+	goHttpContextClient()
 }
 
 func goDates() {
@@ -263,25 +264,11 @@ func goFunctions() {
 	fmt.Println("Using lambda to divide values", div, mod)
 }
 
-func goHttpClient() {
-	type HealthStatus struct {
-		Status          string `json:"status"`
-		StartupTime     string `json:"startup_time"`
-		UpTime          string `json:"up_time"`
-		ServerIpAddress string `json:"server_ip_address"`
-	}
-
-	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
-	fmt.Printf("Response: %T\n", resp)
-	defer resp.Body.Close()
-
-	var status HealthStatus
-	decoder := json.NewDecoder(resp.Body)
-	if err := decoder.Decode(&status); err != nil {
-		panic(err)
-	}
-
-	fmt.Printf("HealthStatus: %T\n", status)
+type HealthStatus struct {
+	Status          string `json:"status"`
+	StartupTime     string `json:"startup_time"`
+	UpTime          string `json:"up_time"`
+	ServerIpAddress string `json:"server_ip_address"`
 }
 
 func goRecovery() {
@@ -415,4 +402,36 @@ func goContext() {
 
 	bid := findBid(ctx, "https://http.cat/418")
 	fmt.Printf("Found bid %+v\n", bid)
+}
+
+func goHttpClient() {
+	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
+	fmt.Printf("Response: %+v\n", resp)
+	defer resp.Body.Close()
+
+	var status HealthStatus
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&status); err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("HealthStatus: %+v\n", status)
+}
+
+func goHttpContextClient() {
+	ctx, cancel := context.WithTimeout(context.Background(), 3000*time.Millisecond)
+	defer cancel()
+
+	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "https://reqfol.fly.dev/health/status", nil)
+	resp, _ := http.DefaultClient.Do(req)
+	fmt.Printf("Response: %+v\n", resp)
+	defer resp.Body.Close()
+
+	var status HealthStatus
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&status); err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("HealthStatus: %+v\n", status)
 }
