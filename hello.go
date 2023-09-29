@@ -36,7 +36,7 @@ func main() {
 	goSwitch()
 	goLoops()
 	goFunctions()
-	goHttp()
+	goHttpClient()
 	goRecovery()
 	goRoutines()
 	goChannels()
@@ -263,21 +263,23 @@ func goFunctions() {
 	fmt.Println("Using lambda to divide values", div, mod)
 }
 
-type HealthStatus struct {
-	Status          string
-	StartupTime     string `json:"startup_time"`
-	UpTime          string `json:"up_time"`
-	ServerIpAddress string `json:"server_ip_address"`
-}
+func goHttpClient() {
+	type HealthStatus struct {
+		Status          string `json:"status"`
+		StartupTime     string `json:"startup_time"`
+		UpTime          string `json:"up_time"`
+		ServerIpAddress string `json:"server_ip_address"`
+	}
 
-func goHttp() {
 	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
 	fmt.Printf("Response: %T\n", resp)
 	defer resp.Body.Close()
 
 	var status HealthStatus
 	decoder := json.NewDecoder(resp.Body)
-	decoder.Decode(&status)
+	if err := decoder.Decode(&status); err != nil {
+		panic(err)
+	}
 
 	fmt.Printf("HealthStatus: %T\n", status)
 }
