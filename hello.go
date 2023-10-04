@@ -16,7 +16,9 @@ const (
 )
 
 /*
-https://go-proverbs.github.io for reference
+For reference:
+https://go-proverbs.github.io
+https://go.dev/doc/effective_go
 */
 func main() {
 	//var declaration, only works inside functions
