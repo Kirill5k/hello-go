@@ -1,4 +1,4 @@
-package main
+package stdlib
 
 import (
 	"context"
@@ -11,54 +11,18 @@ import (
 	"time"
 )
 
-const (
-	HelloWorldTemplate string = "Hello, %s!"
-)
-
-/*
-For reference:
-https://go-proverbs.github.io
-https://go.dev/doc/effective_go
-*/
-func main() {
-	//var declaration, only works inside functions
-	helloStr := fmt.Sprintf(HelloWorldTemplate, "Boris")
-	fmt.Println(helloStr)
-	fmt.Printf("The type is %T\n", helloStr)
-
-	goDates()
-	goPointers()
-	goArrays()
-	goSlices()
-	goMaps()
-	goStructs()
-	goInterfaces()
-	goGenerics()
-	goConditionalLogic()
-	goSwitch()
-	goLoops()
-	goFunctions()
-	goRecovery()
-	goRoutines()
-	goChannels()
-	goSelect()
-	goContext()
-	goHttpClient()
-	goHttpContextClient()
-}
-
-func goDates() {
+func GoDates() {
 	now := time.Now()
 	fmt.Println("Today's date is " + now.Format(time.RFC3339))
 }
 
-func goPointers() {
+func GoPointers() {
 	anInt := 42
 	var pointer = &anInt
 	fmt.Println("Value of pointer", *pointer)
 }
 
-func goArrays() {
+func GoArrays() {
 	var colors [3]string
 	colors[0] = "Red"
 	colors[1] = "Green"
@@ -69,7 +33,7 @@ func goArrays() {
 	fmt.Println("Numbers array", numbers)
 }
 
-func goSlices() {
+func GoSlices() {
 	var colors = []string{"Red", "Green", "Blue"}
 	colors = append(colors, "Purple")
 	colors = append(colors[1:])
@@ -84,7 +48,7 @@ func goSlices() {
 	fmt.Println("Numbers slice", colors)
 }
 
-func goMaps() {
+func GoMaps() {
 	states := make(map[string]string)
 	states["WA"] = "Washington"
 	states["OR"] = "Oregon"
@@ -126,7 +90,7 @@ func (d *Dog) SetAge(age int) {
 	d.Age = age
 }
 
-func goStructs() {
+func GoStructs() {
 	poodle, err := NewDog("Poodle", 10)
 	if err != nil {
 		fmt.Println("ERROR:", err)
@@ -157,7 +121,7 @@ func (c Circle) Area() float64 {
 	return c.Radius * c.Radius * math.Pi
 }
 
-func goInterfaces() {
+func GoInterfaces() {
 	sumAreas := func(shapes []Shape) float64 {
 		total := 0.0
 		for _, shape := range shapes {
@@ -190,7 +154,7 @@ func min[T Ordered](items []T) (T, error) {
 	return m, nil
 }
 
-func goGenerics() {
+func GoGenerics() {
 	minFloat, _ := min([]float64{2, 3, 5})
 	fmt.Println("Generic ordered interface with float", minFloat)
 
@@ -198,7 +162,7 @@ func goGenerics() {
 	fmt.Println("Generic ordered interface with string", minString)
 }
 
-func goConditionalLogic() {
+func GoConditionalLogic() {
 	var result string
 
 	// Initialises value as part of if statement
@@ -213,7 +177,7 @@ func goConditionalLogic() {
 	fmt.Println("Result is", result)
 }
 
-func goSwitch() {
+func GoSwitch() {
 	dow := rand.Intn(7) + 1
 
 	var result string
@@ -229,7 +193,7 @@ func goSwitch() {
 	fmt.Println("The day is", result)
 }
 
-func goLoops() {
+func GoLoops() {
 	colors := []string{"Red", "Green", "Blue"}
 
 	for i := 0; i < len(colors); i++ {
@@ -251,7 +215,7 @@ func goLoops() {
 	fmt.Print("\n")
 }
 
-func goFunctions() {
+func GoFunctions() {
 	sum := func(val1, val2 int) int {
 		return val1 + val2
 	}
@@ -273,7 +237,7 @@ type HealthStatus struct {
 	ServerIpAddress string `json:"server_ip_address"`
 }
 
-func goRecovery() {
+func GoRecovery() {
 	// Named return values - local variables inside function
 	safeValue := func(vals []int, index int) (n int, err error) {
 		defer func() {
@@ -289,7 +253,7 @@ func goRecovery() {
 	fmt.Printf("error from saveValue %v\n", err)
 }
 
-func goRoutines() {
+func GoRoutines() {
 	contentType := func(url string) {
 		resp, err := http.Get(url)
 		if err != nil {
@@ -319,7 +283,7 @@ func goRoutines() {
 	wg.Wait()
 }
 
-func goChannels() {
+func GoChannels() {
 	const count = 3
 	ch := make(chan int)
 
@@ -344,7 +308,7 @@ func goChannels() {
 	}
 }
 
-func goSelect() {
+func GoSelect() {
 	ch1, ch2 := make(chan int), make(chan int)
 	go func() {
 		ch1 <- 42
@@ -371,7 +335,7 @@ func goSelect() {
 	}
 }
 
-func goContext() {
+func GoContext() {
 
 	type Bid struct {
 		AdUrl string
@@ -406,7 +370,7 @@ func goContext() {
 	fmt.Printf("Found bid %+v\n", bid)
 }
 
-func goHttpClient() {
+func GoHttpClient() {
 	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
 	fmt.Printf("Response: %+v\n", resp)
 	defer resp.Body.Close()
@@ -420,7 +384,7 @@ func goHttpClient() {
 	fmt.Printf("HealthStatus: %+v\n", status)
 }
 
-func goHttpContextClient() {
+func GoHttpContextClient() {
 	ctx, cancel := context.WithTimeout(context.Background(), 3000*time.Millisecond)
 	defer cancel()
 
