@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"math"
 	"math/rand"
 	"net/http"
@@ -261,7 +262,12 @@ func GoRoutines() {
 			return
 		}
 
-		defer resp.Body.Close()
+		defer func(Body io.ReadCloser) {
+			fmt.Printf("closing resp.Body")
+			if err := Body.Close(); err != nil {
+				panic(err)
+			}
+		}(resp.Body)
 		ctype := resp.Header.Get("content-type")
 		fmt.Printf("%s -> %s\n", url, ctype)
 	}
@@ -373,7 +379,12 @@ func GoContext() {
 func GoHttpClient() {
 	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
 	fmt.Printf("Response: %+v\n", resp)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		fmt.Printf("closing resp.Body")
+		if err := Body.Close(); err != nil {
+			panic(err)
+		}
+	}(resp.Body)
 
 	var status HealthStatus
 	decoder := json.NewDecoder(resp.Body)
@@ -391,7 +402,12 @@ func GoHttpContextClient() {
 	req, _ := http.NewRequestWithContext(ctx, http.MethodGet, "https://reqfol.fly.dev/health/status", nil)
 	resp, _ := http.DefaultClient.Do(req)
 	fmt.Printf("Response: %+v\n", resp)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		fmt.Printf("closing resp.Body")
+		if err := Body.Close(); err != nil {
+			panic(err)
+		}
+	}(resp.Body)
 
 	var status HealthStatus
 	decoder := json.NewDecoder(resp.Body)
