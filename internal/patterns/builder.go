@@ -1,5 +1,7 @@
 package patterns
 
+import "fmt"
+
 type Notification struct {
 	title    string
 	subtitle string
@@ -25,6 +27,14 @@ func NewNotificationBuilder() *NotificationBuilder {
 }
 
 func (builder *NotificationBuilder) Build() (*Notification, error) {
+	if builder.Icon != "" && builder.Subtitle == "" {
+		return nil, fmt.Errorf("icon cannot be used without a subtitle")
+	}
+
+	if builder.Priority > 5 || builder.Priority < 0 {
+		return nil, fmt.Errorf("priority must be between 0 and 5")
+	}
+
 	notification := &Notification{
 		title:    builder.Title,
 		subtitle: builder.Subtitle,
