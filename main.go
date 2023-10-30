@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"kirill5k/hello/go/internal/concurrency"
 	"kirill5k/hello/go/internal/stdlib"
 )
 
@@ -33,10 +34,10 @@ func main() {
 	stdlib.GoLoops()
 	stdlib.GoFunctions()
 	stdlib.GoRecovery()
-	stdlib.GoRoutines()
 	stdlib.GoChannels()
 	stdlib.GoSelect()
 	stdlib.GoContext()
 	stdlib.GoHttpClient()
 	stdlib.GoHttpContextClient()
+	concurrency.GoRoutines()
 }

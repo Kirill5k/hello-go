@@ -8,7 +8,6 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
-	"sync"
 	"time"
 )
 
@@ -252,41 +251,6 @@ func GoRecovery() {
 
 	_, err := safeValue([]int{}, 10)
 	fmt.Printf("error from saveValue %v\n", err)
-}
-
-func GoRoutines() {
-	contentType := func(url string) {
-		resp, err := http.Get(url)
-		if err != nil {
-			fmt.Printf("error: %s\n", err)
-			return
-		}
-
-		defer func(Body io.ReadCloser) {
-			fmt.Printf("closing resp.Body")
-			if err := Body.Close(); err != nil {
-				panic(err)
-			}
-		}(resp.Body)
-		ctype := resp.Header.Get("content-type")
-		fmt.Printf("%s -> %s\n", url, ctype)
-	}
-
-	urls := []string{
-		"https://golang.com",
-		"https://api.github.com",
-		"https://httpbin.org/ip",
-	}
-
-	var wg sync.WaitGroup
-	for _, url := range urls {
-		wg.Add(1)
-		go func(url string) {
-			contentType(url)
-			wg.Done()
-		}(url)
-	}
-	wg.Wait()
 }
 
 func GoChannels() {
