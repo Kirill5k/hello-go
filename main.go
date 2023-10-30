@@ -34,10 +34,10 @@ func main() {
 	stdlib.GoLoops()
 	stdlib.GoFunctions()
 	stdlib.GoRecovery()
-	stdlib.GoChannels()
 	stdlib.GoSelect()
 	stdlib.GoContext()
 	stdlib.GoHttpClient()
 	stdlib.GoHttpContextClient()
 	concurrency.GoRoutines()
+	concurrency.GoChannels()
 }
