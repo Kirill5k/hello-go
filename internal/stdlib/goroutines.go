@@ -238,6 +238,7 @@ type HealthStatus struct {
 }
 
 func GoRecovery() {
+	// Analogous to try/catch in Java
 	// Named return values - local variables inside function
 	safeValue := func(vals []int, index int) (n int, err error) {
 		defer func() {
