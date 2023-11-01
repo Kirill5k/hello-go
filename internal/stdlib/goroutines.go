@@ -253,68 +253,6 @@ func GoRecovery() {
 	fmt.Printf("error from saveValue %v\n", err)
 }
 
-func GoSelect() {
-	ch1, ch2 := make(chan int), make(chan int)
-	go func() {
-		ch1 <- 42
-	}()
-
-	select {
-	case val := <-ch1:
-		fmt.Printf("Received value from ch1: %d\n", val)
-	case val := <-ch2:
-		fmt.Printf("Received value from ch2: %d\n", val)
-	}
-
-	chOut := make(chan float64)
-	go func() {
-		time.Sleep(100 * time.Millisecond)
-		chOut <- 3.14
-	}()
-
-	select {
-	case val := <-chOut:
-		fmt.Printf("Received %f\n", val)
-	case <-time.After(20 * time.Millisecond):
-		fmt.Println("timeout")
-	}
-}
-
-func GoContext() {
-
-	type Bid struct {
-		AdUrl string
-		Price float64
-	}
-
-	defaultBId := Bid{AdUrl: "https://adsrus.com/default", Price: 0.02}
-
-	bestBid := func(url string) Bid {
-		time.Sleep(20 * time.Millisecond)
-		return Bid{AdUrl: "https://adsrus.com/19", Price: 0.05}
-	}
-
-	findBid := func(ctx context.Context, url string) Bid {
-		ch := make(chan Bid, 1) // buffered channel to avoid goroutine leak
-		go func() {
-			ch <- bestBid(url)
-		}()
-
-		select {
-		case bid := <-ch:
-			return bid
-		case <-ctx.Done():
-			return defaultBId
-		}
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
-	defer cancel()
-
-	bid := findBid(ctx, "https://http.cat/418")
-	fmt.Printf("Found bid %+v\n", bid)
-}
-
 func GoHttpClient() {
 	resp, _ := http.Get("https://reqfol.fly.dev/health/status")
 	fmt.Printf("Response: %+v\n", resp)
