@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	awsCredentials "github.com/aws/aws-sdk-go-v2/credentials"
+	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/docker/go-connections/nat"
 	"github.com/minio/minio-go/v7"
 	minioCredentials "github.com/minio/minio-go/v7/pkg/credentials"
@@ -11,6 +14,7 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 	"log"
+	"path"
 	"testing"
 	"time"
 )
@@ -18,6 +22,7 @@ import (
 const (
 	bucketName   = "bucket"
 	bucketPrefix = "path/to/files"
+	region       = "us-east-1"
 )
 
 type s3ConnectionProps struct {
@@ -44,6 +49,31 @@ conn := s3.NewFromConfig(aws.Config{
     o.UsePathStyle = true
 })
 */
+
+func Test_ListFiles_ReturnsListOfFilesFromTheBucket(t *testing.T) {
+	s3Files := map[string]string{
+		"/file1.txt": "foo",
+		"/file2.txt": "bar",
+		"/file3.txt": "baz",
+	}
+
+	ctx := context.Background()
+	connectionProps := setupS3Container(t, ctx, s3Files)
+
+	config := aws.Config{
+		Region:       region,
+		Credentials:  awsCredentials.NewStaticCredentialsProvider(connectionProps.accessKeyID, connectionProps.secretAccessKey, ""),
+		BaseEndpoint: aws.String(connectionProps.endpoint),
+	}
+
+	client := NewClient(config, func(o *s3.Options) {
+		o.UsePathStyle = true
+	})
+
+	files, err := client.ListFiles(ctx, "s3://"+path.Join(bucketName, bucketPrefix))
+	require.NoError(t, err)
+	require.NotEmpty(t, files)
+}
 
 func setupS3Container(t *testing.T, ctx context.Context, files map[string]string) s3ConnectionProps {
 	accessKeyId := "root"
