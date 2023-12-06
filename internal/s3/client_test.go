@@ -31,25 +31,6 @@ type s3ConnectionProps struct {
 	secretAccessKey string
 }
 
-/*
-resolver := aws.EndpointResolverFunc(func(service, region string) (aws.Endpoint, error) {
-    return aws.Endpoint{
-        PartitionID:       "aws",
-        URL:               "http://127.0.0.1:9000",
-        SigningRegion:     "us-east-2",
-        HostnameImmutable: true,
-    }, nil
-})
-
-conn := s3.NewFromConfig(aws.Config{
-    Region:           "us-east-2",
-    Credentials:      credentials.NewStaticCredentialsProvider("minioadmin", "minioadmin", ""),
-    EndpointResolver: resolver,
-}, func(o *s3.Options) {
-    o.UsePathStyle = true
-})
-*/
-
 func Test_ListFiles_ReturnsListOfFilesFromTheBucket(t *testing.T) {
 	s3Files := map[string]string{
 		"/file1.txt": "foo",
@@ -72,7 +53,9 @@ func Test_ListFiles_ReturnsListOfFilesFromTheBucket(t *testing.T) {
 
 	files, err := client.ListFiles(ctx, "s3://"+path.Join(bucketName, bucketPrefix))
 	require.NoError(t, err)
-	require.NotEmpty(t, files)
+	require.Contains(t, files, "path/to/files/file1.txt")
+	require.Contains(t, files, "path/to/files/file2.txt")
+	require.Contains(t, files, "path/to/files/file3.txt")
 }
 
 func setupS3Container(t *testing.T, ctx context.Context, files map[string]string) s3ConnectionProps {
