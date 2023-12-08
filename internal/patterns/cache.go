@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Cache[K any, V any] interface {
+type Cache[K comparable, V any] interface {
 	Get(key K) *V
 	Put(key K, value V)
 	Contains(key K) bool
@@ -16,7 +16,14 @@ type cacheEntry[V any] struct {
 	time  time.Time
 }
 
-type inMemoryCache[K any, V any] struct {
+type inMemoryCache[K comparable, V any] struct {
 	mu     sync.Mutex
-	values map[string]cacheEntry[V]
+	values map[K]cacheEntry[V]
+}
+
+func (c *inMemoryCache[K, V]) Get(key K) *V {
+	c.mu.Lock()
+	v := c.values[key]
+	c.mu.Unlock()
+	return &v.value
 }
