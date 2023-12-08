@@ -37,3 +37,9 @@ func (c *inMemoryCache[K, V]) Contains(key K) bool {
 	c.mu.Unlock()
 	return ok
 }
+
+func (c *inMemoryCache[K, V]) Put(key K, value V) {
+	c.mu.Lock()
+	c.values[key] = cacheEntry[V]{value: value, time: time.Now()}
+	c.mu.Unlock()
+}
