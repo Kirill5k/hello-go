@@ -11,6 +11,11 @@ type Cache[K comparable, V any] interface {
 	Contains(key K) bool
 }
 
+func NewImMemoryCache[K comparable, V any](expiresIn time.Duration, checkEvery time.Duration) Cache[K, V] {
+
+	return &inMemoryCache[K, V]{values: make(map[K]cacheEntry[V])}
+}
+
 type cacheEntry[V any] struct {
 	value V
 	time  time.Time
