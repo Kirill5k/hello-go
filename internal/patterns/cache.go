@@ -23,7 +23,17 @@ type inMemoryCache[K comparable, V any] struct {
 
 func (c *inMemoryCache[K, V]) Get(key K) *V {
 	c.mu.Lock()
-	v := c.values[key]
+	v, ok := c.values[key]
 	c.mu.Unlock()
+	if !ok {
+		return nil
+	}
 	return &v.value
+}
+
+func (c *inMemoryCache[K, V]) Contains(key K) bool {
+	c.mu.Lock()
+	_, ok := c.values[key]
+	c.mu.Unlock()
+	return ok
 }
