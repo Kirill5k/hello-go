@@ -11,11 +11,6 @@ type Cache[K comparable, V any] interface {
 	Contains(key K) bool
 }
 
-func NewImMemoryCache[K comparable, V any](expiresIn time.Duration, checkEvery time.Duration) Cache[K, V] {
-
-	return &inMemoryCache[K, V]{values: make(map[K]cacheEntry[V])}
-}
-
 type cacheEntry[V any] struct {
 	value V
 	time  time.Time
@@ -24,6 +19,25 @@ type cacheEntry[V any] struct {
 type inMemoryCache[K comparable, V any] struct {
 	mu     sync.Mutex
 	values map[K]cacheEntry[V]
+}
+
+func NewInMemoryCache[K comparable, V any](expiresIn time.Duration, checkEvery time.Duration) Cache[K, V] {
+	cache := &inMemoryCache[K, V]{values: make(map[K]cacheEntry[V])}
+	go deleteExpiredItems(cache, expiresIn, checkEvery)
+	return cache
+}
+
+func deleteExpiredItems[K comparable, V any](c *inMemoryCache[K, V], expiresIn time.Duration, checkEvery time.Duration) {
+	c.mu.Lock()
+	currentTime := time.Now()
+	for k, v := range c.values {
+		if v.time.Add(expiresIn).After(currentTime) {
+			delete(c.values, k)
+		}
+	}
+	c.mu.Unlock()
+	time.Sleep(checkEvery)
+	deleteExpiredItems(c, expiresIn, checkEvery)
 }
 
 func (c *inMemoryCache[K, V]) Get(key K) *V {
