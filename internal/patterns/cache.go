@@ -9,6 +9,7 @@ type Cache[K comparable, V any] interface {
 	Get(key K) *V
 	Put(key K, value V)
 	Contains(key K) bool
+	Size() int
 }
 
 type cacheEntry[V any] struct {
@@ -54,6 +55,12 @@ func (c *inMemoryCache[K, V]) Put(key K, value V) {
 	c.mu.Lock()
 	c.values[key] = cacheEntry[V]{value: value, time: time.Now()}
 	c.mu.Unlock()
+}
+
+func (c *inMemoryCache[K, V]) Size() int {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	return len(c.values)
 }
 
 func (c *inMemoryCache[K, V]) deleteExpiredItems(expiresIn time.Duration) {
