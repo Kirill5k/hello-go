@@ -66,7 +66,7 @@ func (c *InMemoryCache[K, V]) Size() int {
 func (c *InMemoryCache[K, V]) deleteExpiredItems(currentTime time.Time, expiresIn time.Duration) {
 	c.mu.Lock()
 	for k, v := range c.values {
-		if v.time.Add(expiresIn).After(currentTime) {
+		if v.time.Add(expiresIn).Before(currentTime) {
 			delete(c.values, k)
 		}
 	}
