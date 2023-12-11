@@ -6,8 +6,16 @@ import (
 	"time"
 )
 
+func Test_Put_AddsItemToCache(t *testing.T) {
+	cache := NewInMemoryCache[string, string](5*time.Minute, 15*time.Second)
+
+	cache.Put("foo", "bar")
+
+	require.Equal(t, "bar", *cache.Get("foo"))
+}
+
 func Test_Size_ReturnsSizeOfCache(t *testing.T) {
-	cache := NewInMemoryCache[string, string](1*time.Second, 1*time.Second)
+	cache := NewInMemoryCache[string, string](5*time.Minute, 15*time.Second)
 
 	cache.Put("foo-1", "bar")
 	cache.Put("foo-2", "bar")
