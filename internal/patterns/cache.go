@@ -29,7 +29,7 @@ func NewInMemoryCache[K comparable, V any](expiresIn time.Duration, checkEvery t
 }
 
 func deleteExpiredItems[K comparable, V any](c *inMemoryCache[K, V], expiresIn time.Duration, checkEvery time.Duration) {
-	c.deleteExpiredItems(expiresIn)
+	c.deleteExpiredItems(time.Now(), expiresIn)
 	time.Sleep(checkEvery)
 	deleteExpiredItems(c, expiresIn, checkEvery)
 }
@@ -63,9 +63,8 @@ func (c *inMemoryCache[K, V]) Size() int {
 	return len(c.values)
 }
 
-func (c *inMemoryCache[K, V]) deleteExpiredItems(expiresIn time.Duration) {
+func (c *inMemoryCache[K, V]) deleteExpiredItems(currentTime time.Time, expiresIn time.Duration) {
 	c.mu.Lock()
-	currentTime := time.Now()
 	for k, v := range c.values {
 		if v.time.Add(expiresIn).After(currentTime) {
 			delete(c.values, k)
