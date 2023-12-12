@@ -6,6 +6,12 @@ import (
 	"time"
 )
 
+func Test_Get_ReturnsNilWhenKeyIsMissing(t *testing.T) {
+	cache := NewInMemoryCache[string, string](5*time.Minute, 15*time.Second)
+
+	require.Nil(t, cache.Get("foo"))
+}
+
 func Test_Put_AddsItemToCache(t *testing.T) {
 	cache := NewInMemoryCache[string, string](5*time.Minute, 15*time.Second)
 
