@@ -67,3 +67,12 @@ func Test_Contains_ReturnsTrueWhenKeyIsPresent(t *testing.T) {
 
 	require.True(t, contains)
 }
+
+func Test_Contains_ExpiresOldItemsAndReturnsNil(t *testing.T) {
+	cache := NewInMemoryCache[string, string](1*time.Second, 1*time.Second)
+
+	cache.Put("foo", "bar")
+	time.Sleep(2 * time.Second)
+
+	require.False(t, cache.Contains("foo"))
+}
