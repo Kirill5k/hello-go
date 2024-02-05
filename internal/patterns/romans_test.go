@@ -6,11 +6,11 @@ import (
 )
 
 func Test_ToRoman_ConvertsIntToRomanNumber(t *testing.T) {
-	require.Equal(t, IntToRoman(1), "I")
-	require.Equal(t, IntToRoman(3), "III")
-	require.Equal(t, IntToRoman(4), "IV")
-	require.Equal(t, IntToRoman(5), "V")
-	require.Equal(t, IntToRoman(6), "VI")
-	require.Equal(t, IntToRoman(7), "VI7")
-	require.Equal(t, IntToRoman(10), "X")
+	require.Equal(t, "I", IntToRoman(1))
+	require.Equal(t, "III", IntToRoman(3))
+	require.Equal(t, "V", IntToRoman(5))
+	require.Equal(t, "VI", IntToRoman(6))
+	require.Equal(t, "VII", IntToRoman(7))
+	require.Equal(t, "X", IntToRoman(10))
+	require.Equal(t, "IV", IntToRoman(4))
 }
