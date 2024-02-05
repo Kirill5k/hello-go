@@ -13,4 +13,5 @@ func Test_ToRoman_ConvertsIntToRomanNumber(t *testing.T) {
 	require.Equal(t, "VII", IntToRoman(7))
 	require.Equal(t, "X", IntToRoman(10))
 	require.Equal(t, "IV", IntToRoman(4))
+	require.Equal(t, "XXIV", IntToRoman(24))
 }
