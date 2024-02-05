@@ -16,11 +16,16 @@ var lettersToNumbers = []letterToNumber{
 func IntToRoman(n int) string {
 	remaining := n
 	result := ""
-	for _, ltn := range lettersToNumbers {
+	for i, ltn := range lettersToNumbers {
 		if ltn.number <= remaining {
 			count := remaining / ltn.number
 			remaining = remaining % ltn.number
-			result = result + strings.Repeat(ltn.letter, count)
+			if count <= 3 {
+				result = result + strings.Repeat(ltn.letter, count)
+			} else if i > 0 && count == 4 {
+				prevLtn := lettersToNumbers[i-1]
+				result = result + ltn.letter + prevLtn.letter
+			}
 		}
 	}
 	return result
