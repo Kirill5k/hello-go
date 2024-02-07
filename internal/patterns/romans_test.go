@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_ToRoman_ConvertsIntToRomanNumber(t *testing.T) {
+func Test_IntToRoman_ConvertsIntegersToRomanNumerals(t *testing.T) {
 	require.Equal(t, "I", IntToRoman(1))
 	require.Equal(t, "II", IntToRoman(2))
 	require.Equal(t, "III", IntToRoman(3))
@@ -17,4 +17,6 @@ func Test_ToRoman_ConvertsIntToRomanNumber(t *testing.T) {
 	require.Equal(t, "X", IntToRoman(10))
 	require.Equal(t, "XXIV", IntToRoman(24))
 	require.Equal(t, "XL", IntToRoman(40))
+	require.Equal(t, "IX", IntToRoman(9))
+	require.Equal(t, "XLIX", IntToRoman(49))
 }

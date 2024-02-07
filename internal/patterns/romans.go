@@ -25,7 +25,11 @@ func IntToRoman(n int) string {
 				result = result + strings.Repeat(ltn.letter, count)
 			} else if i > 0 && count == 4 {
 				prevLtn := lettersToNumbers[i-1]
-				result = result + ltn.letter + prevLtn.letter
+				if i > 1 && len(result) > 0 && result[len(result)-1:] == prevLtn.letter {
+					result = result[:len(result)-1] + ltn.letter + lettersToNumbers[i-2].letter
+				} else {
+					result = result + ltn.letter + prevLtn.letter
+				}
 			}
 		}
 	}
