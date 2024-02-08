@@ -19,4 +19,5 @@ func Test_IntToRoman_ConvertsIntegersToRomanNumerals(t *testing.T) {
 	require.Equal(t, "XL", IntToRoman(40))
 	require.Equal(t, "IX", IntToRoman(9))
 	require.Equal(t, "XLIX", IntToRoman(49))
+	require.Equal(t, "XIX", IntToRoman(19))
 }
