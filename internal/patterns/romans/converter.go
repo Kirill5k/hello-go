@@ -1,4 +1,4 @@
-package patterns
+package romans
 
 import "strings"
 
@@ -14,7 +14,7 @@ var lettersToNumbers = []letterToNumber{
 	{"I", 1},
 }
 
-func IntToRoman(n int) string {
+func FromInt(n int) string {
 	remaining := n
 	result := ""
 	for i, ltn := range lettersToNumbers {
